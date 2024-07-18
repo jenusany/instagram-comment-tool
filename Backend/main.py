@@ -12,8 +12,7 @@ from tensorflow.keras.utils import to_categorical
 import re
 from keras.models import load_model
 
-
-data = pd.read_csv('twitter_training.csv')
+data = pd.read_csv('Backend/twitter_training.csv')
 # Keeping only the neccessary columns
 data = data[['text','sentiment']]
 data = data[data.sentiment != "Neutral"]
@@ -22,7 +21,7 @@ data['text'] = data['text'].apply((lambda x: re.sub('[^a-zA-z0-9]','',str(x))))
 data['text'] = data['text'].apply(lambda x: x.lower())
 
 # Load the model
-loaded_model = load_model('sentModel.keras')
+loaded_model = load_model('Backend/sentModel.keras')
 loaded_model.compile(loss = 'categorical_crossentropy', optimizer='adam',metrics = ['accuracy'])
 tokenizer = Tokenizer(num_words=2000, split=' ')
 tokenizer.fit_on_texts(data['text'].values)
