@@ -1,16 +1,17 @@
 document.getElementById('loginButton').onclick = function() {
     const appId = '803246971960239';
-    const redirectUri = 'https://jenusany.github.io/tesing/';
+    const redirectUri = 'https://jenusany.github.io/Instagram-comment-analysis/';
     const authUrl = `https://www.facebook.com/v11.0/dialog/oauth?client_id=${appId}&redirect_uri=${redirectUri}&scope=instagram_basic,pages_show_list,business_management,pages_read_engagement`;
   
     window.location.href = authUrl;
   };
   const urlParams = new URLSearchParams(window.location.search);
 const code = urlParams.get('code');
+console.log(code)
 
 if (code) {
 // Exchange the code for an access token
-fetch(`https://graph.facebook.com/v11.0/oauth/access_token?client_id=803246971960239&redirect_uri=https://jenusany.github.io/tesing/&client_secret=c19298b4ce75926bf2dc0177b77e5912&code=${code}`)
+fetch(`https://graph.facebook.com/v11.0/oauth/access_token?client_id=803246971960239&redirect_uri=https://jenusany.github.io/Instagram-comment-analysis/&client_secret=c19298b4ce75926bf2dc0177b77e5912&code=${code}`)
   .then(response => response.json())
   .then(data => {
     const accessToken = data["access_token"];
