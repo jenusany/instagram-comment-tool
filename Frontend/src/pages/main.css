@@ -1,0 +1,45 @@
+@keyframes animate{
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.select{
+    opacity: 0;
+    animation: animate 0.5s ease-in forwards;
+}
+
+body{
+    display: flex;
+}
+
+.suites{
+    background-color: #e6bb02;
+    height: 10vh;
+    font-size: 30px;
+    width: auto;
+    height: auto;
+    border-radius: 1em;
+    padding: 30px;
+    margin: 10px;
+    border: none;
+    color: black;
+    opacity: 0;
+    animation: animate 0.5s ease-in forwards;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.select, fbacc{
+    opacity: 0;
+    animation: animate 0.5s ease-in forwards;
+}
+.button-container{
+    width: 100vw;
+    height: auto;
+    border: 1px solid black;
+}
+
+.media{
+    width: 250px;
+    border: 3px solid grey;
+    margin: 10px;
+}
