@@ -28,6 +28,11 @@ body{
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+.suites:hover{
+    background-color: #c6a201;
+    transition: background-color 0.3s;
+}
+
 .select, fbacc{
     opacity: 0;
     animation: animate 0.5s ease-in forwards;
@@ -42,4 +47,23 @@ body{
     width: 250px;
     border: 3px solid grey;
     margin: 10px;
+}
+
+.back{
+    background-color: rgb(193, 193, 193);
+    border: none;
+    bottom: 5%;
+    left: 5%;
+    position: absolute;
+    font-size: 2em;
+    width: auto;
+    padding: 0.5em;
+    border-radius: 1em;
+    opacity: 0;
+    animation: animate 0.5s ease-in forwards;
+}
+
+.back:hover{
+    background-color: rgb(155, 155, 155);
+    transition: background-color 0.3s;
 }

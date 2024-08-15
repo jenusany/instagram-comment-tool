@@ -21,6 +21,10 @@ function App() {
     window.location.href = authUrl;
   }
 
+  function newPost(){
+    setcommentsCollected([])
+  }
+
   function AnalyseComments(url, comments){
     setLikes(likes)
     setTimeStamp(timestamp)
@@ -43,7 +47,7 @@ function App() {
       )
     }else{
       return(
-        <Data commentArr={commentsCollected} />
+        <Data commentArr={commentsCollected} method={newPost}/>
       )
     }
   }

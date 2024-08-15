@@ -4,6 +4,8 @@ import "./login.css";
 
 function Login({method}) {
 
+  localStorage.getItem("")
+
   return (
     <div className="contain">
         <form onSubmit={method} className="form">

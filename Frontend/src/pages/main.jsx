@@ -4,7 +4,7 @@ import Loading from "./loading.jsx";
 
 function Main({method}) {
 
-    const [selectedSuite, setSelectedSuite] = useState();
+    const [selectedSuite, setSelectedSuite] = useState(false);
     const [MainaccessToken, setMainaccessToken] = useState();
     const [FBaccounts, setFBaccounts] = useState([]);
     const [FBaccountsIDS, setFBaccountsIDS] = useState([]);
@@ -30,8 +30,8 @@ function Main({method}) {
         fetch(`https://graph.facebook.com/v11.0/oauth/access_token?client_id=803246971960239&redirect_uri=https://jenusany.github.io/testRepo/&client_secret=c19298b4ce75926bf2dc0177b77e5912&code=${code}`)
             .then(response => response.json())
             .then(data => {
-                //const accessToken = data["access_token"];
-                const accessToken = ("EAALajIJuO68BO2ClpmZB8XDjyTgRB9VMSPzYkO2katNZCIkQLn1ySQQqpFRkeLPh0GWK2NZA8n29REuzCq8R7AxYANpLW1dgCZCYrxbuaJF3mfTYb9B0fPl9rKeOBLBR1KZCHP2AvodOAUNWJgkE2iGSG5qZB4BYEz793lI29cMxQ0aforXw5O1awpRHSEcmde8cNgAcycVz7j3rNV57SJVSjcqeUZD")
+                const accessToken = data["access_token"];
+                //const accessToken = ("EAALajIJuO68BO7NrDU8WIZB8EZC7CBqOZCmB8s5nPEpu8kc9aadMc4R7jFdjanswZAaNkX0FKRe5jEXppcRCXHDPoNQMzy4NlTaq6yWGlqfm5un5btIOlUZC3rbfBkrBEiBvQyOX3eiKieIP4jZCmjizwZArtMEBXtJk0Bl9Dp5ELmYZANK8drPDEIcsktwZASuc1xEobDzOeg9RHsvWaogZDZD")
                 setMainaccessToken(accessToken)
                 fetch(`https://graph.facebook.com/v20.0/me/businesses?access_token=${accessToken}`)
                 .then(response => response.json())
@@ -39,10 +39,16 @@ function Main({method}) {
                     const businesses = data["data"]
                     let arr = []
                     let ids = []
+
+                    if(businesses.length === 0){
+                      throw("This Meta login has no associated Meta Business Suites")
+                    }
+
                     for(let i = 0; i < businesses.length; i++){
                         arr.push(businesses[i]["name"])
                         ids.push(businesses[i]["id"])
                     }
+
                     setSuiteId(ids)
                     setSuiteLabels(arr)
                 })
@@ -71,6 +77,11 @@ function Main({method}) {
                         const accounts = data["data"]
                         let arr = []
                         let ids = []
+
+                        if(accounts.length === 0){
+                          throw("This Meta Business Suite has no associated Facebook Business Accounts")
+                        }
+
                             for(let i = 0; i < accounts.length; i++){
                                 arr.push(accounts[i]["name"])
                                 ids.push(accounts[i]["id"])
@@ -78,7 +89,7 @@ function Main({method}) {
                         setFBaccounts(arr)
                         setFBaccountsIDS(ids)
                     })
-                    setSelectedSuite(suiteLabels[id])
+                    setSelectedSuite(true)
                 return new Promise(resolve => {
                   setTimeout(() => {
                     resolve("Data loaded");
@@ -107,6 +118,11 @@ function Main({method}) {
                     let images = []
                     let videos = []
                     let comments = {}
+                    
+                    if(posts.length === 0){
+                      throw("This Instagram business Account has no Posts")
+                    }
+
                     for(let i = 0; i < posts.length; i++){
                         fetch(`https://graph.facebook.com/v20.0/${posts[i]["id"]}?fields=media_url,timestamp,like_count,comments,media_type&access_token=${MainaccessToken}`)
                         .then(response => response.json())
@@ -131,7 +147,6 @@ function Main({method}) {
                 })
             })
             setSelectedAccount(true)
-
                 return new Promise(resolve => {
                   setTimeout(() => {
                     resolve("Data loaded");
@@ -153,8 +168,16 @@ function Main({method}) {
                     <div className="main">
                     <h1 className="select animate">Select a Meta Business Suite</h1>
                     {suiteLabels.map((label, index) => (
-                        <button onClick={()=> selectSuite((index))} className="suites animate" key={index}>{label}</button>
+                        <button onClick={()=> {
+                          try{
+                            selectSuite((index))
+                          } catch(error){
+                            alert(error)
+                          }
+                      
+                        }} className="suites animate" key={index}>{label}</button>
                       ))}
+                      
                     </div>  
                   );
               }
@@ -169,6 +192,13 @@ function Main({method}) {
                         {FBaccounts.map((label, index) => (
                             <button onClick={() => selectAccount(index)} className="suites animate" key={index}>{label}</button>
                           ))}
+                          <button className="back" onClick={()=> {
+                            try{
+                              setSelectedSuite(false)
+                            } catch(error){
+                              alert(error)
+                            }
+                            }}>Back</button>
                         </div> 
                     )
                   }
@@ -180,11 +210,24 @@ function Main({method}) {
                         <>
                         <h1 className="select">Select a Post to Analyse</h1>
                         {imageArray.map((label, index) => (
-                            <img className="media animate" src={label} onClick={()=> method(label, CommentJSON)} key={index}></img>
+                            <img className="media animate" src={label} onClick={()=> {
+                              try{
+                                method(label, CommentJSON)
+                              }catch (error){
+                                alert(error)
+                              }
+                            }} key={index}></img>
                           ))}
                           {videoarray.map((label, index) => (
-                            <video className="media animate" onClick={()=> method(label, CommentJSON)} src={label} key={index}></video>
+                            <video className="media animate" onClick={()=> {
+                              try{
+                                method(label, CommentJSON)
+                              }catch (error){
+                                alert(error)
+                              }
+                            }} src={label} key={index}></video>
                           ))}
+                          <button className="back" onClick={()=> setSelectedAccount(false)}>Back</button>
                         </> 
                     )
                 }

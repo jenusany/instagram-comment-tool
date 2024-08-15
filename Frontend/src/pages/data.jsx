@@ -3,7 +3,7 @@ import "./data.css";
 import Loading from "./loading.jsx";
 import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
 
-function Data(commentArr) {
+function Data(commentArr, {method}) {
 
   console.log(commentArr["commentArr"])
 
@@ -155,6 +155,7 @@ const data = [
                     ))}
           </div>
       </div>
+      <button className="back" onClick={commentArr["method"]}>Back</button>
   </>
       );
   }
